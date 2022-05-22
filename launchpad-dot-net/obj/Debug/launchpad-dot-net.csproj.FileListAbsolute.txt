@@ -18,3 +18,13 @@ F:\VS Repos\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.cspr
 F:\VS Repos\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.dll
 F:\VS Repos\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.pdb
 F:\VS Repos\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.csproj.CoreCompileInputs.cache
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\bin\Debug\launchpad-dot-net.dll
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\bin\Debug\launchpad-dot-net.pdb
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\bin\Debug\Midi.dll
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\bin\Debug\Midi.pdb
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\bin\Debug\Midi.xml
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.csproj.AssemblyReference.cache
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.csproj.CoreCompileInputs.cache
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.csproj.CopyComplete
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.dll
+C:\DevOther\junk\launchpad-dot-net\launchpad-dot-net\obj\Debug\launchpad-dot-net.pdb
