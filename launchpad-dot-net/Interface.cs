@@ -228,6 +228,7 @@ namespace LaunchpadNET
 			byte[] stop = sysexHeader.Concat(new byte[] { 7, 247 }).ToArray();
 			targetOutput.SendSysEx(stop);
 		}
+		public Nullable<LaunchpadMode> ModeAsSet { get; set; } 
 		/// <summary>
 		/// Switches between programmer and live mode.
 		/// </summary>
@@ -235,6 +236,7 @@ namespace LaunchpadNET
 		/// </summary>
 		public void SetMode(LaunchpadMode mode)
 		{
+			ModeAsSet = mode;
 			byte[] modeSet = sysexHeader.Concat(new byte[] { 14, (byte)mode, 247 }).ToArray();
 			targetOutput.SendSysEx(modeSet);
 		}
@@ -331,7 +333,7 @@ namespace LaunchpadNET
 
 		public void clearAllLEDs()
 		{
-			massUpdateLEDsRectangle(0, 0, 7, 7, 0);
+			massUpdateLEDsRectangle(0, 0, 7, 7, 0, LightingMode.RGB);
 
 			if (IsLegacy)
 			{
@@ -488,36 +490,47 @@ namespace LaunchpadNET
 			targetOutput.SendNoteOn(Channel.Channel3, (Pitch)led, velo);
 		}
 
-		public void massUpdateLEDs(List<int> xs, List<int> ys, int velo, LightingMode mode = LightingMode.Set, int velo2 = 0, int velo3 = 0)
+		public void massUpdateLEDs(IEnumerable<int> xsx, IEnumerable<int> ysx, int velo, LightingMode mode = LightingMode.Set, int velo2 = 0, int velo3 = 0)
 		{
+			var xs = xsx.ToList();
+			var ys = ysx.ToList();
 			if (xs.Count != ys.Count)
 				throw new Exception("count of xs and ys does not match");
 			byte[] sendbytes = sysexHeader.Concat(new byte[] { 3 }).ToArray();
 			for (int i = 0; i < xs.Count; i++)
 			{
-				Pitch note;
-				if (xs[i] == 8 && ys[i] == 8)
+				try
 				{
-					note = topLEDNotes[8]; //logo is in the top list, special case
-				}
-				else if (xs[i] == 8)
+
+					Pitch note;
+
+					int x = xs[i];
+					int y = ys[i];
+					if (x == 8 && y == 0)
+					{
+						note = topLEDNotes[8]; //logo is in the top list, special case
+					}
+					//else if (x == 8)
+					//{
+					//	note = rightLEDnotes[y];
+					//}
+					else if (y == 99)
+					{
+						note = topLEDNotes[x];
+					}
+					else
+					{
+						note = ledToMidiNote(x, y);
+					}
+					if (mode == LightingMode.Flash)
+						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2 }).ToArray();
+					else if (mode == LightingMode.RGB)
+						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2, (byte)velo3 }).ToArray();
+					else
+						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo }).ToArray();
+				} catch (Exception ex)
 				{
-					note = rightLEDnotes[ys[i]];
 				}
-				else if (ys[i] == 8)
-				{
-					note = topLEDNotes[xs[i]];
-				}
-				else
-				{
-					note = ledToMidiNote(xs[i], ys[i]);
-				}
-				if (mode == LightingMode.Flash)
-					sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2 }).ToArray();
-				else if (mode == LightingMode.RGB)
-					sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2, (byte)velo3 }).ToArray();
-				else
-					sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo }).ToArray();
 			}
 			sendbytes = sendbytes.Concat(new byte[] { 247 }).ToArray();
 			targetOutput.SendSysEx(sendbytes);
