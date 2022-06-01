@@ -228,7 +228,7 @@ namespace LaunchpadNET
 			byte[] stop = sysexHeader.Concat(new byte[] { 7, 247 }).ToArray();
 			targetOutput.SendSysEx(stop);
 		}
-		public Nullable<LaunchpadMode> ModeAsSet { get; set; } 
+		public Nullable<LaunchpadMode> ModeAsSet { get; set; }
 		/// <summary>
 		/// Switches between programmer and live mode.
 		/// </summary>
@@ -326,35 +326,39 @@ namespace LaunchpadNET
 		/// <param name="x">The X coordinate of the LED</param>
 		/// <param name="y">The Y coordinate of the LED</param>
 		/// <returns>The midi note</returns>
-		public Pitch ledToMidiNote(int x, int y)
-		{
-			return notes[x, y];
-		}
+		public Pitch ledToMidiNote(int x, int y) => notes[x, y];
 
 		public void clearAllLEDs()
 		{
-			massUpdateLEDsRectangle(0, 0, 7, 7, 0, LightingMode.RGB);
+			//massUpdateLEDsRectangle(0, 0, 7, 7, 0);
 
-			if (IsLegacy)
+			//if (IsLegacy)
+			//{
+			//	for (int ry = 0; ry < 8; ry++)
+			//	{
+			//		setSideLED(ry, 0);
+			//	}
+			//	for (int tx = 1; tx < 9; tx++)
+			//	{
+			//		setTopLEDs(tx, 0);
+			//	}
+			//}
+			//else
+			//{
+			//	foreach (SideLEDs side in Enum.GetValues(typeof(SideLEDs)))
+			//	{
+			//		setSideLED(side, 0);
+			//	}
+			//	foreach (TopLEDs top in Enum.GetValues(typeof(TopLEDs)))
+			//	{
+			//		setTopLED(top, 0);
+			//	}
+			//}
+			for (int x = 0; x < 9; x++)
 			{
-				for (int ry = 0; ry < 8; ry++)
+				for (int y = 0; y < 9; y++)
 				{
-					setSideLED(ry, 0);
-				}
-				for (int tx = 1; tx < 9; tx++)
-				{
-					setTopLEDs(tx, 0);
-				}
-			}
-			else
-			{
-				foreach (SideLEDs side in Enum.GetValues(typeof(SideLEDs)))
-				{
-					setSideLED(side, 0);
-				}
-				foreach (TopLEDs top in Enum.GetValues(typeof(TopLEDs)))
-				{
-					setTopLED(top, 0);
+					MySetLED(x, y, 0, 0, 0);
 				}
 			}
 		}
@@ -490,53 +494,67 @@ namespace LaunchpadNET
 			targetOutput.SendNoteOn(Channel.Channel3, (Pitch)led, velo);
 		}
 
-		public void massUpdateLEDs(IEnumerable<int> xsx, IEnumerable<int> ysx, int velo, LightingMode mode = LightingMode.Set, int velo2 = 0, int velo3 = 0)
+		public void massUpdateLEDs(IEnumerable<int> xsx, IEnumerable<int> ysx, int red, int green = 0, int blue = 0)
 		{
 			var xs = xsx.ToList();
 			var ys = ysx.ToList();
 			if (xs.Count != ys.Count)
 				throw new Exception("count of xs and ys does not match");
-			byte[] sendbytes = sysexHeader.Concat(new byte[] { 3 }).ToArray();
+			List<byte> sendbytes = new List<byte>();
 			for (int i = 0; i < xs.Count; i++)
 			{
-				try
-				{
-
-					Pitch note;
-
-					int x = xs[i];
-					int y = ys[i];
-					if (x == 8 && y == 0)
-					{
-						note = topLEDNotes[8]; //logo is in the top list, special case
-					}
-					//else if (x == 8)
-					//{
-					//	note = rightLEDnotes[y];
-					//}
-					else if (y == 99)
-					{
-						note = topLEDNotes[x];
-					}
-					else
-					{
-						note = ledToMidiNote(x, y);
-					}
-					if (mode == LightingMode.Flash)
-						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2 }).ToArray();
-					else if (mode == LightingMode.RGB)
-						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo, (byte)velo2, (byte)velo3 }).ToArray();
-					else
-						sendbytes = sendbytes.Concat(new byte[] { (byte)mode, (byte)note, (byte)velo }).ToArray();
-				} catch (Exception ex)
-				{
-				}
+				int x = xs[i];
+				int y = ys[i];
+				var retx = GetBytesToSend(red, green, blue, x, y);
+				sendbytes.AddRange(retx);
 			}
-			sendbytes = sendbytes.Concat(new byte[] { 247 }).ToArray();
-			targetOutput.SendSysEx(sendbytes);
+			DoASend(sendbytes.ToArray());
 		}
 
-		public void massUpdateLEDsRectangle(int startX, int startY, int endX, int endY, int velo, LightingMode mode = LightingMode.Set, int velo2 = 0, int velo3 = 0)
+		public void MySetLED(int x, int y, int r, int g, int b) => DoASend(GetBytesToSend(r, g, b, x, y));
+
+		private void DoASend(byte[] bytes)
+		{
+			var sendbytes = HeaderBytes;
+			sendbytes = sendbytes.Concat(bytes).ToArray();
+			sendbytes = sendbytes.Concat(new byte[] { 247 }).ToArray();
+			SendByte(sendbytes);
+		}
+
+		private void SendByte(byte[] sendbytes) => targetOutput.SendSysEx(sendbytes);
+
+		private byte[] HeaderBytes => sysexHeader.Concat(new byte[] { 3 }).ToArray();
+
+		private byte[] GetBytesToSend(int r, int g, int b, int x, int y)
+		{
+			var note = GetNoteFromCoords(x, y);
+			//var note = GetNoteFromCoords(y, x);
+			return (new byte[] { (byte)LightingMode.RGB, (byte)note, (byte)r, (byte)g, (byte)b }).ToArray();
+		}
+
+		private Pitch GetNoteFromCoords(int x, int y)
+		{
+			Pitch note;
+			if (x == 8 && y == 0)
+			{
+				note = topLEDNotes[8]; //logo is in the top list, special case
+			}
+			else if (x == 8)
+			{
+				note = rightLEDnotes[y - 1];
+			}
+			else if (y == 0)
+			{
+				note = topLEDNotes[x];
+			}
+			else
+			{
+				note = ledToMidiNote(x, y - 1);
+			}
+			return note;
+		}
+
+		public void massUpdateLEDsRectangle(int startX, int startY, int endX, int endY, int velo, int velo2 = 0, int velo3 = 0)
 		{
 			List<int> xs = new List<int>();
 			List<int> ys = new List<int>();
@@ -548,7 +566,7 @@ namespace LaunchpadNET
 					ys.Add(y);
 				}
 			}
-			massUpdateLEDs(xs, ys, velo, mode, velo2, velo3);
+			massUpdateLEDs(xs, ys, velo, velo2, velo3);
 		}
 
 		/// <summary>
@@ -603,6 +621,15 @@ namespace LaunchpadNET
 			//legacy search.
 			var namesO = DeviceManager.OutputDevices.Where(x => !x.Name.Contains("Synth")).Where(x => x.Name != "LPMiniMK3 MIDI").Select(x => x.Name).ToArray();
 			var namesI = DeviceManager.InputDevices.Where(x => !x.Name.Contains("Synth")).Where(x => x.Name != "LPMiniMK3 MIDI").Select(x => x.Name).ToArray();
+			//foreach (var x in namesO)
+			//{
+			//	Console.WriteLine("O: " + x);
+			//}
+			//foreach (var x in namesI)
+			//{
+			//	Console.WriteLine("I: " + x);
+			//}
+
 			bool NewMethod()
 			{
 				var alreadyO = tempDevices.Select(x => x._midiOut).ToArray();
@@ -616,6 +643,7 @@ namespace LaunchpadNET
 					{
 						if (id.Name == od.Name)
 						{
+							Console.WriteLine(id.Name);
 							if (id.Name.ToLower().Contains("launchpad"))
 							{
 								tempDevices.Add(new LaunchpadDevice(id.Name));
@@ -627,7 +655,10 @@ namespace LaunchpadNET
 				string inName = String.Empty;
 				foreach (InputDevice id in inputDevices)
 				{
-					if (id.Name.ToLower().Contains("lpminimk3") && id.Name.ToLower().Contains("midiin"))
+					Console.WriteLine(id.Name);
+					var name = id.Name.ToLower();
+					Console.WriteLine(name);
+					if (name.Contains("lpminimk3") && name.Contains("midiin"))
 					{
 						var c = id._caps;
 						//Console.WriteLine($"{c.szPname} {c.wPid} {c.dwSupport} {c.wMid} ");
@@ -638,7 +669,8 @@ namespace LaunchpadNET
 				}
 				foreach (OutputDevice od in outputDevices)
 				{
-					if (od.Name.ToLower().Contains("lpminimk3") && od.Name.ToLower().Contains("midiout"))
+					var name = od.Name.ToLower();
+					if (name.Contains("lpminimk3") && name.Contains("midiout"))
 					{
 						outName = od.Name;
 						break;
