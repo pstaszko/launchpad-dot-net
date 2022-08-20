@@ -17,8 +17,18 @@ namespace LaunchpadNET
 	public enum TopLEDs { Up = 91, Down = 92, Left = 93, Right = 94, Session = 95, Drums = 96, Keys = 97, User = 98, Logo = 99 }; //match keys on MiniMk3
 	public enum LaunchpadMode { Live = 0, Programmer = 1 };
 
-	public class Interface
+	public class Interface : IDisposable
 	{
+		private Action<string> outError;
+		private Action<string> outInfo;
+		private Action<string> outWarn;
+		public bool Evented = false;
+		public Interface(Action<string> outError, Action<string> outInfo, Action<string> outWarn)
+		{
+			this.outError = outError;
+			this.outInfo = outInfo;
+			this.outWarn = outWarn;
+		}
 		private Pitch[,] notes = new Pitch[8, 8] {
 			{ Pitch.A5, Pitch.ASharp5, Pitch.B5, Pitch.C6, Pitch.CSharp6, Pitch.D6, Pitch.DSharp6, Pitch.E6 },
 			{ Pitch.B4, Pitch.C5, Pitch.CSharp5, Pitch.D5, Pitch.DSharp5, Pitch.E5, Pitch.F5, Pitch.FSharp5 },
@@ -59,6 +69,21 @@ namespace LaunchpadNET
 		public event LaunchpadKeyDownHandler OnLaunchpadKeyDown;
 		public event LaunchpadKeyUpHandler OnLaunchpadKeyUp;
 
+		public void Dispose()
+		{
+			OnLaunchpadKeyPressed = null;
+			OnLaunchpadCCKeyPressed = null;
+			OnLaunchpadCCKeyDown = null;
+			OnLaunchpadCCKeyUp = null;
+			OnLaunchpadKeyDown = null;
+			OnLaunchpadKeyUp = null;
+			OnLaunchpadKeyPressed = null;
+			OnLaunchpadCCKeyPressed = null;
+			OnLaunchpadCCKeyDown = null;
+			OnLaunchpadCCKeyUp = null;
+			OnLaunchpadKeyDown = null;
+			OnLaunchpadKeyUp = null;
+		}
 		private byte[] sysexHeader;
 
 		public bool Connected { get; set; }
@@ -580,10 +605,9 @@ namespace LaunchpadNET
 			try
 			{
 				targetOutput.SendNoteOn(Channel.Channel1, notes[x, y], velo);
-			} catch (DeviceException)
+			} catch (DeviceException ex)
 			{
-				Console.WriteLine("<< LAUNCHPAD.NET >> Midi.DeviceException");
-				throw;
+				outError($"<< LAUNCHPAD.NET >> {nameof(Interface.setLED)} Midi.DeviceException {ex.Message}");
 			}
 		}
 
@@ -592,10 +616,9 @@ namespace LaunchpadNET
 			try
 			{
 				targetOutput.SendNoteOn(Channel.Channel2, notes[x, y], velo);
-			} catch (DeviceException)
+			} catch (DeviceException ex)
 			{
-				Console.WriteLine("<< LAUNCHPAD.NET >> Midi.DeviceException");
-				throw;
+				outError($"<< LAUNCHPAD.NET >> {nameof(Interface.setLEDFlash)} Midi.DeviceException {ex.Message}");
 			}
 		}
 
@@ -604,10 +627,9 @@ namespace LaunchpadNET
 			try
 			{
 				targetOutput.SendNoteOn(Channel.Channel3, notes[x, y], velo);
-			} catch (DeviceException)
+			} catch (DeviceException ex)
 			{
-				Console.WriteLine("<< LAUNCHPAD.NET >> Midi.DeviceException");
-				throw;
+				outError($"<< LAUNCHPAD.NET >> {nameof(Interface.setLEDPulse)} Midi.DeviceException {ex.Message}");
 			}
 		}
 
@@ -615,19 +637,21 @@ namespace LaunchpadNET
 		/// Returns all connected and installed Launchpads.
 		/// </summary>
 		/// <returns>Returns LaunchpadDevice array.</returns>
-		public LaunchpadDevice[] getConnectedLaunchpads()
+		public static LaunchpadDevice[] getConnectedLaunchpads(Action<string> outInfo)
 		{
 			List<LaunchpadDevice> tempDevices = new List<LaunchpadDevice>();
 			//legacy search.
+			var a = DeviceManager.OutputDevices.ToList();
+			var b = DeviceManager.InputDevices.ToList();
 			var namesO = DeviceManager.OutputDevices.Where(x => !x.Name.Contains("Synth")).Where(x => x.Name != "LPMiniMK3 MIDI").Select(x => x.Name).ToArray();
 			var namesI = DeviceManager.InputDevices.Where(x => !x.Name.Contains("Synth")).Where(x => x.Name != "LPMiniMK3 MIDI").Select(x => x.Name).ToArray();
 			//foreach (var x in namesO)
 			//{
-			//	Console.WriteLine("O: " + x);
+			//	outInfo("O: " + x);
 			//}
 			//foreach (var x in namesI)
 			//{
-			//	Console.WriteLine("I: " + x);
+			//	outInfo("I: " + x);
 			//}
 
 			bool NewMethod()
@@ -638,12 +662,12 @@ namespace LaunchpadNET
 				var inputDevices = DeviceManager.InputDevices.Where(x => !alreadyI.Contains(x.Name)).ToArray();
 				foreach (InputDevice id in inputDevices)
 				{
-					//Console.WriteLine(id._deviceId);
+					//outInfo(id._deviceId);
 					foreach (OutputDevice od in outputDevices)
 					{
 						if (id.Name == od.Name)
 						{
-							Console.WriteLine(id.Name);
+							//outInfo(id.Name);
 							if (id.Name.ToLower().Contains("launchpad"))
 							{
 								tempDevices.Add(new LaunchpadDevice(id.Name));
@@ -655,14 +679,14 @@ namespace LaunchpadNET
 				string inName = String.Empty;
 				foreach (InputDevice id in inputDevices)
 				{
-					Console.WriteLine(id.Name);
+					outInfo(id.Name);
 					var name = id.Name.ToLower();
-					Console.WriteLine(name);
+					outInfo(name);
 					if (name.Contains("lpminimk3") && name.Contains("midiin"))
 					{
 						var c = id._caps;
-						//Console.WriteLine($"{c.szPname} {c.wPid} {c.dwSupport} {c.wMid} ");
-						Console.WriteLine($"{id.Name} ");
+						//outInfo($"{c.szPname} {c.wPid} {c.dwSupport} {c.wMid} ");
+						outInfo($"{id.Name} ");
 						inName = id.Name;
 						break;
 					}
@@ -689,11 +713,12 @@ namespace LaunchpadNET
 			while (NewMethod()) { }
 			//var xO = namesO.Except(tempDevices.Select(x => x._midiOut)).ToArray();
 			//var xI = namesI.Except(tempDevices.Select(x => x._midiIn)).ToArray();
-			//tempDevices.ForEach(x => Console.WriteLine(x._midiIn));
-			//tempDevices.ForEach(x => Console.WriteLine(x._midiOut));
-			//tempDevices.ForEach(x => Console.WriteLine(x._midiName));
+			//tempDevices.ForEach(x => outInfo(x._midiIn));
+			//tempDevices.ForEach(x => outInfo(x._midiOut));
+			//tempDevices.ForEach(x => outInfo(x._midiName));
 			//tempDevices.Add(new LaunchpadDevice(xO[0], xI[0]));
-			return tempDevices.ToArray();
+
+			return tempDevices.OrderBy(x => x._midiIn).ToArray();
 		}
 
 		/// <summary>
@@ -758,8 +783,10 @@ namespace LaunchpadNET
 			return Connected;
 		}
 
+
 		public class LaunchpadDevice
 		{
+			public string Describe() => $"{_midiName} {_midiIn} {_midiOut} {_isLegacy}";
 			public string _midiName;
 			//public int _midiDeviceId;
 			public string _midiOut;
