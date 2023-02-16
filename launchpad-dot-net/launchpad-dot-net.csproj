@@ -62,7 +62,7 @@
   <ItemGroup>
     <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj">
       <Name>Midi</Name>
-      <Project>{A24B3217-CB1D-4CD6-BF21-5A4BA613DA46}</Project>
+      <Project>{4FDE7C12-5CE6-40EB-AA6D-5CBADD9E84FC}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
