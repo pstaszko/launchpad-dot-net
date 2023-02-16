@@ -42,6 +42,9 @@
     <!--    <Reference Include="Midi">-->
     <!--      <HintPath>C:\Dev\midi-dot-net\Midi\bin\Release\Midi.dll</HintPath>-->
     <!--    </Reference>-->
+    <Reference Include="Midi">
+      <HintPath>C:\Dev\midi-dot-net\Midi\bin\Debug\Midi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface.cs" />
@@ -59,11 +62,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj">
-      <Name>Midi</Name>
-      <Project>{25291D63-A98E-4F06-88D5-B82FC9B21BB0}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
