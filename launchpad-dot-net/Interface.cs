@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Midi;
 using Midi.Devices;
 using Midi.Enums;
 using Midi.Messages;
