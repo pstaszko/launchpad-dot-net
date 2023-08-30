@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Midi.Devices;
+﻿using Midi.Devices;
 using Midi.Enums;
 using Midi.Messages;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LaunchpadNET
 {
