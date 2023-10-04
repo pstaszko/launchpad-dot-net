@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Op: Project launchpad-dot-netCurrent Library net6.0-windows -->
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <OptionCompare>Text</OptionCompare>
+    <OutputType>Library</OutputType>
+    <WarningsAsErrors>0025;3239;FS0001;FS0020;FS0025;FS0026;FS0193;FS0049</WarningsAsErrors>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsPackable>false</IsPackable>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\Terminal.Gui.resources.dll" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\FSharp.Core.resources.dll" />
+      <FSharpCoreResourcesDirs Include="@(FSharpCoreResourcesFiles-&gt;'\%(Directory)') " />
+    </ItemGroup>
+    <RemoveDir Directories="@(FSharpCoreResourcesDirs)" />
+  </Target>
+  <!-- Op: End -->
+  <ItemGroup>
+    <None Include=".refs" />
+    <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
+    <Compile Include="..\launchpad-dot-net\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <ProjectReference Include="C:\Dev\midi-dot-net\MidiCurrent\MidiCurrent.csproj" />
+  </ItemGroup>
+</Project>
