@@ -40,8 +40,8 @@
     <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
     <Compile Include="..\launchpad-dot-net\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
   <ItemGroup>
     <ProjectReference Include="C:\Dev\midi-dot-net\MidiCurrent\MidiCurrent.csproj" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
