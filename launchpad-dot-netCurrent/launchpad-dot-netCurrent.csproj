@@ -13,16 +13,18 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-    <AssemblyName>launchpad-dot-net</AssemblyName>
+    <RootNamespace>launchpad-dot-net</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NETCURRENT;LAUNCHPAD_DOT_NET</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NETCURRENT;LAUNCHPAD_DOT_NET</DefineConstants>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <ItemGroup>
@@ -39,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
-    <Compile Include="..\launchpad-dot-net\Properties\AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Dev\midi-dot-net\MidiCurrent\MidiCurrent.csproj" />
