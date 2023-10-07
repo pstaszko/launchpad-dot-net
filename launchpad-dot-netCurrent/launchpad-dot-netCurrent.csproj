@@ -13,6 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <AssemblyName>launchpad-dot-net</AssemblyName>
     <RootNamespace>launchpad-dot-net</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,4 +44,7 @@
     <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj" />
+  </ItemGroup>
 </Project>
