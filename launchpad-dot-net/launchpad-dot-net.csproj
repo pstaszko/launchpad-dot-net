@@ -59,11 +59,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj">
-      <Name>Midi</Name>
-      <Project>{6481F15D-2095-425E-A05F-60ED5F9CF4E5}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
