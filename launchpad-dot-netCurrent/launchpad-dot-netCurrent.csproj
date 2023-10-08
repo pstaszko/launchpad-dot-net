@@ -46,5 +46,4 @@
   <ItemGroup>
     <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
