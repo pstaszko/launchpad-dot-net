@@ -17,13 +17,13 @@
     <RootNamespace>launchpad-dot-net</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NETCURRENT;LAUNCHPAD_DOT_NET;NET6_0_WINDOWS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
-    <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-netCurrent_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NETCURRENT;LAUNCHPAD_DOT_NET;NET6_0_WINDOWS</DefineConstants>
   </PropertyGroup>
@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
   <ItemGroup>
-    <ProjectReference Include="Y:\midi-dot-net\MidiCurrent\MidiCurrent.csproj" />
+    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
