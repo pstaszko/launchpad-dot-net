@@ -42,9 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\launchpad-dot-net\Interface.cs" Link="Interface.cs" />
+    <None Include="..\launchpad-dot-net\packages.config" Link="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj" />
+    <ProjectReference Include="Y:\Dev\midi-dot-net\MidiCurrent\MidiCurrent.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="c:\dev\.paket\Paket.Restore.targets" />
 </Project>

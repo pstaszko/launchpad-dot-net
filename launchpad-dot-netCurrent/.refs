@@ -1,6 +1,1 @@
-#Op: CommentIfEnvVar CurrentMIDI
-#Midi
-#Op: End
-#Op: UncommentIfEnvVar CurrentMIDI
-Y:\midi-dot-net\MidiCurrent\MidiCurrent.csproj
-#Op: End
+Y:\Dev\midi-dot-net\MidiCurrent\MidiCurrent.csproj
