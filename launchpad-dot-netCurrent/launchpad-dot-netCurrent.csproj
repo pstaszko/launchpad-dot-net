@@ -12,9 +12,12 @@
     <WarningsAsErrors>0025;3239;FS0001;FS0020;FS0025;FS0026;FS0193;FS0049</WarningsAsErrors>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsPackable>false</IsPackable>
+    <Prefer32Bit>false</Prefer32Bit>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <AssemblyName>launchpad-dot-net</AssemblyName>
     <RootNamespace>launchpad-dot-net</RootNamespace>
+    <!--<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
