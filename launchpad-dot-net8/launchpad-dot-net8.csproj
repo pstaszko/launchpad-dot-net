@@ -14,21 +14,21 @@
     <IsPackable>false</IsPackable>
     <Prefer32Bit>false</Prefer32Bit>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
-    <AssemblyName>launchpad-dot-net8</AssemblyName>
-    <RootNamespace>launchpad-dot-net8</RootNamespace>
+    <AssemblyName>launchpad-dot-net</AssemblyName>
+    <RootNamespace>launchpad-dot-net</RootNamespace>
     <!--<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-net8*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Debug_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NET8;NET8_0_WINDOWS</DefineConstants>
+    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NET8;LAUNCHPAD_DOT_NET;NET8_0_WINDOWS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-net8*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
-    <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-net8*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\*bin_Release_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
+    <PreBuildEvent>del C:\DEV\temp\HP\C__Dev_Releases_launchpad-dot-net*_* 1&gt;NUL 2&gt;NUL</PreBuildEvent>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NET8;NET8_0_WINDOWS</DefineConstants>
+    <DefineConstants>$(DefineConstants);LAUNCHPAD_DOT_NET8;LAUNCHPAD_DOT_NET;NET8_0_WINDOWS</DefineConstants>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <ItemGroup>
@@ -48,7 +48,7 @@
     <None Include="..\launchpad-dot-net\packages.config" Link="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Dev\midi-dot-net\Midi\Midi.csproj" />
+    <ProjectReference Include="Y:\Dev\midi-dot-net\Midi8\Midi8.csproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
