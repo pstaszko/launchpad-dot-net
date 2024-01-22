@@ -265,14 +265,15 @@ namespace LaunchpadNET
         private void midiPress(NoteOnMessage msg)
         {
             if (!rightLEDnotes.Contains(msg.Pitch)) {
+                LaunchpadKeyEventArgs z() => new LaunchpadKeyEventArgs(midiNoteToLed(msg.Pitch)[0], midiNoteToLed(msg.Pitch)[1]);
                 if (OnLaunchpadKeyPressed != null) {
-                    OnLaunchpadKeyPressed(this, new LaunchpadKeyEventArgs(midiNoteToLed(msg.Pitch)[0], midiNoteToLed(msg.Pitch)[1]));
+                    OnLaunchpadKeyPressed(this, z());
                 }
                 if (OnLaunchpadKeyUp != null && msg.Velocity == 0) {
-                    OnLaunchpadKeyUp(this, new LaunchpadKeyEventArgs(midiNoteToLed(msg.Pitch)[0], midiNoteToLed(msg.Pitch)[1]));
+                    OnLaunchpadKeyUp(this, z());
                 }
                 if (OnLaunchpadKeyDown != null && msg.Velocity == 127) {
-                    OnLaunchpadKeyDown(this, new LaunchpadKeyEventArgs(midiNoteToLed(msg.Pitch)[0], midiNoteToLed(msg.Pitch)[1]));
+                    OnLaunchpadKeyDown(this, z());
                 }
             } else if (OnLaunchpadKeyPressed != null && rightLEDnotes.Contains(msg.Pitch)) {
                 OnLaunchpadCCKeyPressed(this, new LaunchpadCCKeyEventArgs(midiNoteToSideLED(msg.Pitch)));
