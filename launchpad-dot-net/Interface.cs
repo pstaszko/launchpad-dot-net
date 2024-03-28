@@ -1,4 +1,4 @@
-﻿using Midi.Devices;
+using Midi.Devices;
 using Midi.Enums;
 using Midi.Messages;
 using System;
