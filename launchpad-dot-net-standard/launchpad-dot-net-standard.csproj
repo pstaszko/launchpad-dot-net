@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>launchpad_dot_net_standard</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>pstaszko.launchpad-dot-net-standard</PackageId>
+    <Title>launchpad-dot-net-standard</Title>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Description>
+      Rebundle of launchpad-dot-net
+    </Description>
+    <RepositoryUrl>
+    </RepositoryUrl>
+    <!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="midi-dot-net2" Version="2.0.1" />
+  </ItemGroup>
+</Project>
