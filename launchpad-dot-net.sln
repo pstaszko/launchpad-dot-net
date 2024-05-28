@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "launchpad-dot-net", "launchpad-dot-net\launchpad-dot-net.csproj", "{2784C4AF-3B96-471B-91B0-1A11C342D375}"
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2784C4AF-3B96-471B-91B0-1A11C342D375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2784C4AF-3B96-471B-91B0-1A11C342D375}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2784C4AF-3B96-471B-91B0-1A11C342D375}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2784C4AF-3B96-471B-91B0-1A11C342D375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A36945F9-24C1-464D-879E-F9103D04FECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36945F9-24C1-464D-879E-F9103D04FECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36945F9-24C1-464D-879E-F9103D04FECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36945F9-24C1-464D-879E-F9103D04FECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

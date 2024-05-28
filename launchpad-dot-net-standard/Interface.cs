@@ -627,7 +627,7 @@ namespace LaunchpadNET
                     var name = id.Name.ToLower();
                     outInfo(name);
                     if (name.Contains("lpminimk3") && name.Contains("midiin")) {
-                        var c = id._caps;
+                        //var c = id._caps;
                         //outInfo($"{c.szPname} {c.wPid} {c.dwSupport} {c.wMid} ");
                         outInfo($"{id.Name} ");
                         inName = id.Name;
