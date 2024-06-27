@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WarningsAsErrors>0025;3239;FS0001;FS0020;FS0025;FS0026;FS0193;FS0049</WarningsAsErrors>
+  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OutputType)'=='Exe'">
+    <ItemGroup>
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\Terminal.Gui.resources.dll" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\FSharp.Core.resources.dll" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\darwin-arm64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\darwin-x64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\linux-x64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\linux-arm64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\linux-x64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\win-arm64\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\android-arm\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\win-arm\**" />
+      <FSharpCoreResourcesFiles Include="$(OutputPath)**\unix\**" />
+      <FSharpCoreResourcesDirs Include="@(FSharpCoreResourcesFiles->'\%(Directory)') " />
+    </ItemGroup>
+    <RemoveDir Directories="@(FSharpCoreResourcesDirs)" />
+  </Target>
+</Project>
