@@ -4,7 +4,7 @@
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages> <!-- in some cases like JiraConnect, language folders like fr,ru,de get created and several dll files get created. this element prevents the files, but not the folders -->
 	<GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OutputType)'=='Exe' || '$(OutputType)'=='WinExe' ">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OutputType)'=='Exe' Or '$(OutputType)'=='WinExe' ">
     <ItemGroup>
 		<FSharpCoreResourcesFiles Include="$(OutputPath)**\FSharp.Core.resources.dll" />
 		<FSharpCoreResourcesFiles Include="$(OutputPath)**\runtimes\android-arm\**" />
